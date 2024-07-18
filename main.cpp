@@ -8,17 +8,20 @@ void BubbleSort(int input[], int size); // 거품정렬
 void InsertionSort(int input[], int size); // 삽입정렬
 void MergeSort(int input[], int start, int end, int temp[]); // 합병(병합)정렬
 void Merge(int input[], int start, int half, int end, int temp[]);
+void QuickSort(int input[], int left, int right);
 
 int main()
 {
 	const int size = 5;
 	int array[size]{ 8,7,2,3,1 };
-
+	
 	// SORT ALGORITHM
 	/*SequentialSort(array, size);*/
 
 	// Divide And Conquer
-	MergeSort(array, 0, size - 1, tempArray);
+	/*int tempArray[size]{};
+	MergeSort(array, 0, size - 1, tempArray);*/
+	QuickSort(array, 0, size - 1);
 
 	PrintArray(array, size);
 
@@ -124,7 +127,7 @@ void Merge(int input[], int start, int half, int end, int temp[])
 	int tempIndex = 0;
 
 	// 왼쪽 블럭과 오른쪽 블럭을 정렬 합병
-	while (i<=half && j <= end)
+	while (i <= half && j <= end)
 	{
 		if (input[i] < input[j])
 		{
@@ -146,5 +149,47 @@ void Merge(int input[], int start, int half, int end, int temp[])
 	while (j <= end)
 	{
 		temp[tempIndex++] = input[j++];
+	}
+
+	// 원래 배열로 복사
+	tempIndex = 0;
+	for (int i = start; i <= end; i++)
+	{
+		input[i] = temp[tempIndex++];
+	}
+}
+
+void QuickSort(int input[], int left, int right)
+{
+	int i = left;
+	int j = right;
+	int pivot = input[(left + right) / 2];
+	int temp{};
+
+	do
+	{
+		while (input[i] < pivot)
+		{
+			i++;
+		}
+		while (input[j] > pivot)
+		{
+			j--;
+		}
+		if (i <=j)
+		{
+			Swap(input[i], input[j]);
+			i++;
+			j--;
+		}
+	} while (i<=j);
+
+	if (left < j)
+	{
+		QuickSort(input, left, j);
+	}
+	if (i < right)
+	{
+		QuickSort(input, i, right);
 	}
 }
